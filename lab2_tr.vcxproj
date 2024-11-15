@@ -129,6 +129,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="lab2_tr.cpp" />
+    <ClCompile Include="Triangle1.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Triangle1.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="out.txt" />
+    <Text Include="test.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
