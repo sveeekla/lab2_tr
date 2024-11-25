@@ -1,15 +1,61 @@
-п»ї#include "Triangle1.h"
+module;
 
-void Triangle1::validate_triangle()
+#include <iostream>
+#include <fstream>
+#include <numbers>
+#include <sstream>
+export module Triangle1;
+
+export class Triangle1
 {
-    if (side_a <= 0 || side_b <= 0 || side_c <= 0)
-    {
-        throw std::invalid_argument("Sides must be positive.");
+private:
+    double side_a;
+    double side_b;
+    double side_c;
+public:
+    Triangle1();
+    Triangle1(double a, double b, double c);
+    friend std::ostream& operator<<(std::ostream& out, const Triangle1& triangle) {
+        out << triangle.side_a << ' ' << triangle.side_b << ' ' << triangle.side_c << '\n';
+        return out;
     }
-    if (side_a + side_b <= side_c || side_a + side_c <= side_b || side_b + side_c <= side_a)
-    {
-        throw std::invalid_argument("Invalid triangle sides.");
+
+    friend std::istream& operator>>(std::istream& in, Triangle1& triangle) {
+        in >> triangle.side_a >> triangle.side_b >> triangle.side_c;
+        return in;
     }
+    bool validate_triangle();
+    std::string to_string();
+    double get_side_a() const;
+    double get_side_b() const;
+    double get_side_c() const;
+    void set_side_a(double value);
+    void set_side_b(double value);
+    void set_side_c(double value);
+
+    int compare(const Triangle1& other);
+    double perimeter() const;
+    double area() const;
+    //double height(double base) const;
+    std::tuple<double, double, double> heights() const;
+
+    std::string type() const;
+    //double* angles() const;
+    std::tuple<double, double, double> angles() const;
+    bool operator==(const Triangle1& other) const;
+    bool operator!=(const Triangle1& other) const;
+    Triangle1 operator *(double scalar) const;
+    Triangle1 operator /(double scalar) const;
+    std::partial_ordering operator<=>(const Triangle1& other) const;
+};
+
+bool Triangle1::validate_triangle()
+{
+    bool res{ true };
+    if ((side_a <= 0 || side_b <= 0 || side_c <= 0) ||
+        (side_a + side_b <= side_c || side_a + side_c <= side_b || side_b + side_c <= side_a))
+        res = false;
+    return res;
 }
 
 Triangle1::Triangle1()
@@ -22,7 +68,7 @@ Triangle1::Triangle1(double a, double b, double c)
     side_a = { a };
     side_b = { b };
     side_c = { c };
-    validate_triangle();
+    //validate_triangle();
 }
 
 std::string Triangle1::to_string()
@@ -111,19 +157,19 @@ std::string Triangle1::type() const
 }
 
 //double* Triangle1::angles() const
-//{  // Р’С‹С‡РёСЃР»РµРЅРёРµ СѓРіР»РѕРІ РІ СЂР°РґРёР°РЅР°С… 
+//{  // Вычисление углов в радианах 
 //    double* res = new double[3];
 //    res[0] = std::acos((side_b * side_b + side_c * side_c - side_a * side_a) / (2 * side_b * side_c));
 //    res[1] = std::acos((side_a * side_a + side_c * side_c - side_b * side_b) / (2 * side_a * side_c));
-//    res[2] = std::numbers::pi - res[0] - res[1]; // РЎСѓРјРјР° СѓРіР»РѕРІ РІ С‚СЂРµСѓРіРѕР»СЊРЅРёРєРµ СЂР°РІРЅР° ?
+//    res[2] = std::numbers::pi - res[0] - res[1]; // Сумма углов в треугольнике равна ?
 //    return res;
 //}
 
 std::tuple<double, double, double> Triangle1::angles() const
-{  // Р’С‹С‡РёСЃР»РµРЅРёРµ СѓРіР»РѕРІ РІ СЂР°РґРёР°РЅР°С… 
+{  // Вычисление углов в радианах 
     double angleA = std::acos((side_b * side_b + side_c * side_c - side_a * side_a) / (2 * side_b * side_c));
     double angleB = std::acos((side_a * side_a + side_c * side_c - side_b * side_b) / (2 * side_a * side_c));
-    double angleC = std::numbers::pi - angleA - angleB; // РЎСѓРјРјР° СѓРіР»РѕРІ РІ С‚СЂРµСѓРіРѕР»СЊРЅРёРєРµ СЂР°РІРЅР° pi
+    double angleC = std::numbers::pi - angleA - angleB; // Сумма углов в треугольнике равна pi
     return std::make_tuple(angleA, angleB, angleC);
 }
 
@@ -173,5 +219,5 @@ void Triangle1::set_side_c(double value)
 std::tuple<double, double, double> Triangle1::heights() const
 {
     double area_tmp = area();
-    return std::make_tuple((2 * area()) / side_a, (2 * area()) / side_b, (2 * area()) / side_c);
+    return std::make_tuple((2 * area_tmp) / side_a, (2 * area_tmp) / side_b, (2 * area_tmp) / side_c);
 }

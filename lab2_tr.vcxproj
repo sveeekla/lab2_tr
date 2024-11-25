@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="lab2_tr.cpp" />
+    <ClCompile Include="Triangle1.ixx" />
     <ClCompile Include="Triangle1.cpp" />
   </ItemGroup>
   <ItemGroup>
